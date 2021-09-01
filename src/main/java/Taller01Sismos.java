@@ -55,8 +55,9 @@ public class Taller01Sismos {
                 llenarArreglo(sismos);
             }
             case 2 -> {
-                System.out.println("El sismo de mayor magnitud fue: ");
-                mostrarArreglo(sismos);
+                double mayorSismo = buscarMayorSismo(sismos);
+                System.out.println("El sismo de mayor magnitud fue de: " + mayorSismo + " grados en la escala de magnitud de momento");
+
             }
             case 3 -> {
                 int mayoresA5 = contarMayoresa5(sismos);
@@ -109,5 +110,18 @@ public class Taller01Sismos {
             }
         }
     }
+    public static double buscarMayorSismo(double[][] arr){
+        double mayor = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j]>mayor){
+                    mayor = arr[i][j];
+                }
+            }
+        }
+        return mayor;
+    }
+
+
 
 }
