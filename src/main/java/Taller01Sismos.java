@@ -1,6 +1,3 @@
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Taller01Sismos {
@@ -31,9 +28,10 @@ public class Taller01Sismos {
         return scanner.nextInt();
     }
 
-    private static boolean validarOpcionMenu(int opcion) {
+    public static boolean validarOpcionMenu(int opcion) {
         return -1 < opcion && opcion < 5;
     }
+
 
     public static void mostrarMenu(){
         System.out.println("***********************************************************");
