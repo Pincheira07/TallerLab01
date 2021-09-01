@@ -6,17 +6,18 @@ public class Taller01Sismos {
     }
 
     public static void iniciarSimulacion() {
-        iniciarMenu();
+        double[][] sismos = new double[10][7];
+        iniciarMenu(sismos);
     }
 
-    public static void iniciarMenu() {
+    public static void iniciarMenu(double[][] sismos) {
         while (true) {
             mostrarMenu();
             int opcion = leerOpcionMenu();
             if (!validarOpcionMenu(opcion)){
                 System.out.println("Valor fuera de rango");
             }else{
-                ejecutarMenu(opcion);
+                ejecutarMenu(opcion, sismos);
             }
         }
     }
@@ -27,9 +28,10 @@ public class Taller01Sismos {
         return scanner.nextInt();
     }
 
-    private static boolean validarOpcionMenu(int opcion) {
+    public static boolean validarOpcionMenu(int opcion) {
         return -1 < opcion && opcion < 5;
     }
+
 
     public static void mostrarMenu(){
         System.out.println("***********************************************************");
@@ -44,25 +46,102 @@ public class Taller01Sismos {
 
     }
 
-    public static void ejecutarMenu(int option) {
-        switch (option) {
+    public static void ejecutarMenu(int opcion, double[][] sismos) {
+        switch (opcion) {
             case 1 -> {
                 System.out.println("Ingresando datos...");
-
+                llenarArreglo(sismos);
             }
             case 2 -> {
-                System.out.println("El sismo de mayor magnitud fue: ");
+                if (comprobarLlenado(sismos)==0){
+                    System.out.println("Ingresa los datos primero");
+                    iniciarMenu(sismos);
+                }
+                double mayorSismo = buscarMayorSismo(sismos);
+                System.out.println("El sismo de mayor magnitud fue de: " + mayorSismo + " grados en la escala de magnitud de momento");
+
             }
             case 3 -> {
-                System.out.println("Hubieron " + 10 +"sismos mayores a 5.0");
+                if (comprobarLlenado(sismos)==0){
+                    System.out.println("Ingresa los datos primero");
+                    iniciarMenu(sismos);
+                }
+                int mayoresA5 = contarMayoresa5(sismos);
+                System.out.println("¡¡Hubieron " + mayoresA5 +" sismos de magnitud mayor a 5.0!!");
             }
             case 4 -> {
-                System.out.println("Alerta!!! se debe evacuar zona costera!");
-
+                if (comprobarLlenado(sismos)==0){
+                    System.out.println("Ingresa los datos primero");
+                    iniciarMenu(sismos);
+                }
+                enviarSMS(sismos);
             }
             case 0 -> System.exit(0);
         }
     }
+
+    public static double[][] llenarArreglo(double[][] sismos) {
+        for (int i = 0; i < sismos.length ; i++) {
+            for (int j = 0; j < sismos[i].length; j++) {
+                sismos[i][j] =  Math.random()*10;
+            }
+        }
+        return sismos;
+    }
+
+    public static void mostrarArreglo(double[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                System.out.print("[" + arr[i][j] + "]");
+
+            }
+            System.out.println("");
+        }
+    }
+
+    public static int contarMayoresa5(double[][] arr) {
+        int contadorMayoresA5 = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j]>=5.0){
+                    contadorMayoresA5++;
+                }
+            }
+        }
+        return contadorMayoresA5;
+    }
+
+    public static void enviarSMS(double[][] arr){
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j]>=7.0){
+                    System.out.println("Alerta!!! se debe evacuar zona costera!");
+                }
+            }
+        }
+    }
+    public static double buscarMayorSismo(double[][] arr){
+        double mayor = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j]>mayor){
+                    mayor = arr[i][j];
+                }
+            }
+        }
+        return mayor;
+    }
+
+    public static double comprobarLlenado(double[][] arr){
+        double sumTotal = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                sumTotal= sumTotal +arr[i][j];
+            }
+        }
+        return  sumTotal;
+    }
+
 
 
 }
