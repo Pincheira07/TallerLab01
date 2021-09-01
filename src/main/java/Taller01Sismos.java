@@ -48,22 +48,34 @@ public class Taller01Sismos {
 
     }
 
-    public static void ejecutarMenu(int option, double[][] sismos) {
-        switch (option) {
+    public static void ejecutarMenu(int opcion, double[][] sismos) {
+        switch (opcion) {
             case 1 -> {
                 System.out.println("Ingresando datos...");
                 llenarArreglo(sismos);
             }
             case 2 -> {
+                if (comprobarLlenado(sismos)==0){
+                    System.out.println("Ingresa los datos primero");
+                    iniciarMenu(sismos);
+                }
                 double mayorSismo = buscarMayorSismo(sismos);
                 System.out.println("El sismo de mayor magnitud fue de: " + mayorSismo + " grados en la escala de magnitud de momento");
 
             }
             case 3 -> {
+                if (comprobarLlenado(sismos)==0){
+                    System.out.println("Ingresa los datos primero");
+                    iniciarMenu(sismos);
+                }
                 int mayoresA5 = contarMayoresa5(sismos);
                 System.out.println("¡¡Hubieron " + mayoresA5 +" sismos de magnitud mayor a 5.0!!");
             }
             case 4 -> {
+                if (comprobarLlenado(sismos)==0){
+                    System.out.println("Ingresa los datos primero");
+                    iniciarMenu(sismos);
+                }
                 enviarSMS(sismos);
             }
             case 0 -> System.exit(0);
@@ -120,6 +132,16 @@ public class Taller01Sismos {
             }
         }
         return mayor;
+    }
+
+    public static double comprobarLlenado(double[][] arr){
+        double sumTotal = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                sumTotal= sumTotal +arr[i][j];
+            }
+        }
+        return  sumTotal;
     }
 
 
